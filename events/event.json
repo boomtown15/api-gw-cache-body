@@ -1,0 +1,56 @@
+{
+  "resource": "/",
+  "path": "/",
+  "httpMethod": "POST",
+  "headers": {
+    "Accept": "*/*",
+    "Content-Type": "application/json",
+    "Host": "api-id.execute-api.region.amazonaws.com",
+    "type": "sample-type",
+    "User-Agent": "Mozilla/5.0",
+    "X-Amzn-Trace-Id": "Root=1-xxxxx-xxxxxxxxxxxxx"
+  },
+  "multiValueHeaders": {
+    "Accept": ["*/*"],
+    "Content-Type": ["application/json"],
+    "Host": ["api-id.execute-api.region.amazonaws.com"],
+    "User-Agent": ["Mozilla/5.0"],
+    "X-Amzn-Trace-Id": ["Root=1-xxxxx-xxxxxxxxxxxxx"]
+  },
+  "queryStringParameters": null,
+  "multiValueQueryStringParameters": null,
+  "pathParameters": null,
+  "stageVariables": null,
+  "requestContext": {
+    "resourceId": "abc123",
+    "resourcePath": "/",
+    "httpMethod": "POST",
+    "extendedRequestId": "abc123=",
+    "requestTime": "01/Jan/2024:00:00:00 +0000",
+    "path": "/dev",
+    "accountId": "123456789012",
+    "protocol": "HTTP/1.1",
+    "stage": "dev",
+    "domainPrefix": "api-id",
+    "requestTimeEpoch": 1704067200000,
+    "requestId": "abc123-abc123",
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "accountId": null,
+      "cognitoIdentityId": null,
+      "caller": null,
+      "sourceIp": "192.0.2.1",
+      "principalOrgId": null,
+      "accessKey": null,
+      "cognitoAuthenticationType": null,
+      "cognitoAuthenticationProvider": null,
+      "userArn": null,
+      "userAgent": "Mozilla/5.0",
+      "user": null
+    },
+    "domainName": "api-id.execute-api.region.amazonaws.com",
+    "apiId": "api-id"
+  },
+  "body": "{\"type\":\"example\",\"data\":\"test data\"}",
+  "isBase64Encoded": false
+}

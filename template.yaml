@@ -1,0 +1,87 @@
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  ApiCacheBodyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: app.handler
+      Runtime: nodejs20.x
+      MemorySize: 128
+      Timeout: 5
+      Description: "Simple Lambda that prints event to test API GW body caching."
+      FunctionName: api-cache-body-lambda-integration
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /
+            Method: POST
+
+  Api:
+    Type: AWS::Serverless::Api
+    Properties:
+      EndpointConfiguration:
+        Type: REGIONAL
+      StageName: dev
+      # This API level cache is required to initialize a cache and size
+      CacheClusterEnabled: true
+      CacheClusterSize: '0.5'
+      # method override in dev stage to enable cache for the post method
+      MethodSettings:
+        - ResourcePath: "/"
+          HttpMethod: POST
+          CachingEnabled: true
+          CacheTtlInSeconds: 900
+
+      # Defines an integration mapping for POST method that sets caching active for header with name "type"
+      # retrieves the value from the body.type property.  This can be extended to any other properties in the body by adding
+      # more headers and property mapping
+      DefinitionBody:
+        openapi: '3.0'
+        info:
+          title: "APIGW caching from the body example"
+          description: "APIGW Caching from body example"
+          version: 1.0.0
+        paths:
+          /:
+            post:
+              responses:
+                "200":
+                  description: "200 response"
+                  content:
+                    application/json:
+                      schema:
+                        $ref: "#/components/schemas/Empty"
+              x-amazon-apigateway-integration:
+                type: "aws"
+                httpMethod: "POST"
+                # method override to enable method cache
+                uri:
+                  Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiCacheBodyFunction.Arn}/invocations"
+
+                responses:
+                  default:
+                    statusCode: "200"
+                # This creates a header of name type that is set from the body.type property value
+                requestParameters:
+                  integration.request.header.type: "method.request.body.type"
+                passthroughBehavior: "when_no_templates"
+                contentHandling: "CONVERT_TO_TEXT"
+                # sets cache key as header "type"
+                cacheKeyParameters:
+                  - "integration.request.header.type"
+        components:
+          schemas:
+            Empty:
+              title: "Empty Schema"
+              type: "object"
+
+
+
+
+
+
+
+
