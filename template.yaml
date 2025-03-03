@@ -79,9 +79,11 @@ Resources:
               type: "object"
 
 
-
-
-
-
-
-
+# output the API ID and URL endpoint
+Outputs:
+  ApiUrl:
+    Description: "API Gateway dev stage endpoint URL"
+    Value: !Sub "https://${Api}.execute-api.${AWS::Region}.amazonaws.com/dev/"
+  ApiId:
+    Description: "API Gateway endpoint ID"
+    Value: !Ref Api

@@ -4,9 +4,10 @@ This project demonstrates API Gateway caching using properties from the request 
 
 ## Prerequisites
 
-- AWS Account
-- AWS SAM CLI installed
-- Node.js 14.x or later installed
+- [AWS Account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html)
+- [AWS CLI installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) 
+- [AWS SAM CLI installed](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
+- [Node.js](https://nodejs.org/en/download) 20.x or later installed
 - AWS CLI configured with appropriate credentials
 
 ## Deployment
@@ -23,15 +24,15 @@ sam build
 sam deploy --guided
 ```
 
-During the guided deployment, you can accept the default options. Note the API endpoint URL in the deployment outputs.
+During the guided deployment, you can accept the default options. Note the API ID and endpoint URL in the deployment outputs.
 
-Creation of the cache can take several minutes.  You can check progress by running: 
-```aiignore
+Creation of the API Gateway cache can take several minutes.  You can check progress by running: 
+```
 aws apigateway get-stage --rest-api-id <API ID> --stage-name dev
 ```
 
 Example output of the command is shown below.  Wait until CacheClusterStatus is in "AVAILABLE" state
-```aiignore
+```
 {
     "deploymentId": "ydcpfv",
     "stageName": "dev",
@@ -44,11 +45,11 @@ Example output of the command is shown below.  Wait until CacheClusterStatus is 
 
 ## Testing
 
-To test the API and verify the caching behavior:
+To test the API and verify the caching behavior, you'll test with some different values for the test property in the request body.  Each unique combination, will result in unique cache keys.  
 
 1. Send a request with a specific type (this will be a cache miss):
 ```bash
-curl -X POST https://your-api-endpoint/dev/ \
+curl -X POST <your-api-endpoint-url> \
   -H "Content-Type: application/json" \
   -d '{"type": "test1"}' \
   -i
@@ -56,7 +57,7 @@ curl -X POST https://your-api-endpoint/dev/ \
 
 2. Send the same request again (this should be a cache hit):
 ```bash
-curl -X POST https://your-api-endpoint/dev/ \
+curl -X POST <your-api-endpoint-url> \
   -H "Content-Type: application/json" \
   -d '{"type": "test1"}' \
   -i
@@ -64,7 +65,7 @@ curl -X POST https://your-api-endpoint/dev/ \
 
 3. Send a request with a different type (this will be a cache miss):
 ```bash
-curl -X POST https://your-api-endpoint/dev/ \
+curl -X POST <your-api-endpoint-url> \
   -H "Content-Type: application/json" \
   -d '{"type": "test2"}' \
   -i

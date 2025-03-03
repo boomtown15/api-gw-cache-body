@@ -1,4 +1,7 @@
 export const handler = async (event) => {
+
+    const timestamp = new Date().toISOString();
+
     try {
         // print event
         console.log(JSON.stringify(event));
@@ -8,7 +11,8 @@ export const handler = async (event) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                message: 'POST request processed successfully'
+                message: 'POST request processed successfully at ' + timestamp,
+                eventDetails: event
             })
         };
     } catch (error) {
