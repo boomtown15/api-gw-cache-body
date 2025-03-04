@@ -24,6 +24,9 @@ sam build
 sam deploy --guided
 ```
 
+You may see something similar to below.  This is OK to accept with Y as the Lambda function is not retrieving any sensitive data.  
+```ApiCacheBodyFunction has no authentication. Is this okay? [y/N]: ```
+
 During the guided deployment, you can accept the default options. Note the API ID and endpoint URL in the deployment outputs.
 
 Creation of the API Gateway cache can take several minutes.  You can check progress by running: 
@@ -76,7 +79,8 @@ curl -X POST <your-api-endpoint-url> \
 It may take several minutes for metric data to become available.  To check the cache hit metrics, you can run the following CLI commands or view the metrics within CloudWatch.  
 
 To check Cache Hit metrics for the API dev stage: 
-```aws cloudwatch get-metric-statistics \
+```
+aws cloudwatch get-metric-statistics \
     --namespace "AWS/ApiGateway" \
     --metric-name "CacheHitCount" \
     --dimensions Name=ApiName,Value="APIGW caching from the body example" Name=Stage,Value=dev \
@@ -87,14 +91,21 @@ To check Cache Hit metrics for the API dev stage:
 ```
 
 To check cache miss metrics: 
-```aws cloudwatch get-metric-statistics \
+```
+aws cloudwatch get-metric-statistics \
     --namespace "AWS/ApiGateway" \
     --metric-name "CacheMissCount" \
     --dimensions Name=ApiName,Value="APIGW caching from the body example" Name=Stage,Value=dev \
     --start-time $(date -v-1H -u +%Y-%m-%dT%H:%M:%S) \
     --end-time $(date -u +%Y-%m-%dT%H:%M:%S) \
-    --period 3600 \
+    --period 3600 \[template.yaml](template.yaml)
     --statistics Sum
 ```
 
 You've successfully deployed and tested an API Gateway caching solution using properties from the request body as cache keys.   
+
+To flush the API cache, you can run the following: 
+```
+aws apigateway flush-stage-cache --rest-api-id <your api id> --stage-name dev
+
+```

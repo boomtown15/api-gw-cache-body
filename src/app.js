@@ -1,12 +1,10 @@
 export const handler = async (event) => {
 
-    const timestamp = new Date().toISOString();
-
     try {
-        // print event
+        const timestamp = new Date().toLocaleTimeString();
         console.log(JSON.stringify(event));
+
         return {
-            statusCode: 200,
             headers: {
                 'Content-Type': 'application/json'
             },

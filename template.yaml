@@ -67,11 +67,17 @@ Resources:
                 # This creates a header of name type that is set from the body.type property value
                 requestParameters:
                   integration.request.header.type: "method.request.body.type"
+                  integration.request.header.color: "method.request.body.color"
+
                 passthroughBehavior: "when_no_templates"
                 contentHandling: "CONVERT_TO_TEXT"
                 # sets cache key as header "type"
                 cacheKeyParameters:
                   - "integration.request.header.type"
+                  - "integration.request.header.color"
+
+
+
         components:
           schemas:
             Empty:
