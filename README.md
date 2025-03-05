@@ -2,6 +2,8 @@
 
 This project demonstrates API Gateway caching using properties from the request body as cache keys.  API Gateway can cache responses using custom headers, URL paths or query strings.  You can select one or many of these parameters as the key.  Each unique key value will be cached separately.  In this example, we use a property in the body named "type" that is mapped to a customer header during our integration request.  You can map multiple properties from the body to different headers to create unique cache key values.  
 
+This solution is intended for development and sandbox environments to demonstrate caching elements from the body in API requests
+
 ## Prerequisites
 
 - [AWS Account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html)

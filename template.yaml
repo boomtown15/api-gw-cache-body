@@ -69,7 +69,8 @@ Resources:
                   integration.request.header.type: "method.request.body.type"
                   integration.request.header.color: "method.request.body.color"
 
-                passthroughBehavior: "when_no_templates"
+                # see https://docs.aws.amazon.com/apigateway/latest/developerguide/integration-passthrough-behaviors.html
+                passthroughBehavior: "WHEN_NO_MATCH"
                 contentHandling: "CONVERT_TO_TEXT"
                 # sets cache key as header "type"
                 cacheKeyParameters:
